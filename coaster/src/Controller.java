@@ -11,58 +11,72 @@ public class Controller
   public static int Max = 9;
   protected NumberCanvas passengers;
   
-  protected int count;
+  private int count;
+  private int tempCount;
+  private boolean goNowPressed;
   
-
-
   public Controller(NumberCanvas nc)
   {
     passengers = nc;
     count = 0;
-
+    tempCount=0;
+    goNowPressed = false;
   }
 
   public synchronized void newPassenger() throws InterruptedException 
   {
 	  while (count >= Max)
-	  {
 		  wait();
-	  }
 	  
 	  count++;
 	  passengers.setValue(count);
 	  notifyAll();
-	  // complete implementation
-     // use "passengers.setValue(integer value)" to update diplay
   }
 
   public synchronized int getPassengers(int mcar) throws InterruptedException
   {
 	  if(mcar > 0)
 	  {
-		  while (count < mcar)
+		  // Wait until a single passenger is added so it is possible to press goNow
+		  while (count < 1)
 		  {
-			  wait(); // Will awaken when a new passenger is added
+			  goNowPressed = false;
+			  wait();
 		  }
-
-		  count -= mcar;
-		  passengers.setValue(count);
-		  notifyAll();
-		  // System.out.println("get");
-		  return mcar;
-
-
-		  // update for part II
-		  // use "passengers.setValue(integer value)" to update diplay
-		  // dummy value to allow compilation
+		  while (!goNowPressed && count < mcar)
+		  {
+			  goNowPressed = false;
+			  wait();
+		  } 
+		  
+		  if (count > mcar)
+		  {
+			  count -= mcar;
+			  passengers.setValue(count);
+			  notifyAll();
+			  return mcar;
+		  }	
+		  else
+		  {
+			  tempCount = count;
+			  count = 0;
+			  passengers.setValue(0);
+			  notifyAll();
+			  return tempCount;
+		  }
 	  }
 	  else 
+	  {
+		  notifyAll();
 		  return 0;
-  }
+	  }
+}
 
   public synchronized void goNow() 
   {
-    // complete implementation for part II
+	  goNowPressed = true;
+	  notifyAll();
+    
   }
 
 }

@@ -1,4 +1,4 @@
-import java.util.concurrent.Semaphore;
+
 
 /**
  * Complete the implementation of this class in line with the FSP model
@@ -7,26 +7,32 @@ import java.util.concurrent.Semaphore;
 public class PlatformAccess {
 	
 	/* declarations required */
-	protected int count;
-	protected Semaphore space;
+
+	
+	protected boolean full;
 	
 	public PlatformAccess()
 	{
-		space = new Semaphore(1);
-		count = 0;
+		full = false;
 	}
 	
-	public void arrive() throws InterruptedException {
-		space.acquire();
+	public synchronized void arrive() throws InterruptedException
+	{
+		while (full)
+		{
+			wait();
+		}
 		
+		full = true;
 		
-		
-		// complete implementation
+		notifyAll();
 	}
 
-	public synchronized void depart() {
-		// complete implementation
-		space.release();
+	public synchronized void depart()
+	{
+		full = false;
+		notifyAll();
+
 	}
 
 }
