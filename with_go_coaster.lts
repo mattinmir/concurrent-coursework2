@@ -13,8 +13,11 @@ CONTROL[count:0..Max][carSize:0..MCar]
             newPassenger  -> CONTROL[count+1][carSize]
       |requestPassenger[n:1..MCar] -> CONTROL[count][n] 
       |when (carSize > 0 && count >= carSize) 
-            getPassenger[carSize] -> CONTROL[count-carSize][0] // Set to 0 as the car has now left, so want to wait forn new car before calling getPassengers again 
-	  |when (carSize > 0 && count > 0 && count <= carSize) 
+            getPassenger[carSize] -> CONTROL[count-carSize][0] // Set to 0 as the car has now left, so want to wait for new car before calling getPassengers again 
+	  
+	  // Specification was not clear on whether or not button can be pressed when there are enough people
+	  // to fill the car completely, so have assumed you can't, by using `count < carSize`
+ 	  |when (carSize > 0 && count > 0 && count < carSize) 
 			goNow -> getPassenger[count] -> CONTROL[0][0]
       ).
 
@@ -28,7 +31,7 @@ COASTERCAR(N=MCar)
 // controls access to the platform
 PLATFORMACCESS = (arrive -> depart -> PLATFORMACCESS).
 
-
+// Allows car to leave if there are >1 but <MCar passengers available
 BUTTON = (goNow -> BUTTON).
 
 
