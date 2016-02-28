@@ -29,11 +29,13 @@ public class CoasterCar implements Runnable{
        while (true) {
           ThreadPanel.rotate(168);
           access.arrive();
+          System.out.println("Car " + MCar + " Arrived");
           ThreadPanel.rotate(12);
           int n = control.getPassengers(MCar);
           incar.setValue(n);
           ThreadPanel.rotate(12);
           access.depart();
+          System.out.println("Car " + MCar + " Departed");
           ThreadPanel.rotate(168);
           incar.setValue(0);
        }
