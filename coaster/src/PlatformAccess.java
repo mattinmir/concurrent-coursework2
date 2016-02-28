@@ -29,7 +29,11 @@ public class PlatformAccess {
 	}
 
 	public synchronized void depart()
-	{
+	{		
+		// Would throw some exception here if thread tried to
+		// depart without having arrived first 
+		// but extra files not allowed by CATe submission
+
 		full = false;
 		notifyAll();
 

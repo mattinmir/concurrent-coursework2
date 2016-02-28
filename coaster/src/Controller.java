@@ -40,11 +40,14 @@ public class Controller
 		  // Wait until a single passenger is added so it is possible to press goNow
 		  while (count < 1)
 		  {
+			  // Set to false so that button press is not remembered 
 			  goNowPressed = false;
 			  wait();
 		  }
+		  
 		  while (!goNowPressed && count < mcar)
 		  {
+			  // Set to false so that button press is not remembered 
 			  goNowPressed = false;
 			  wait();
 		  } 
@@ -65,9 +68,10 @@ public class Controller
 			  return tempCount;
 		  }
 	  }
+	  
 	  else 
 	  {
-		  notifyAll();
+		// Would throw some exception here but extra files not allowed by CATe submission
 		  return 0;
 	  }
 }
