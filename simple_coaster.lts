@@ -11,7 +11,7 @@ CONTROLLER
 CONTROL[count:0..Max][carSize:0..MCar]  
     = (when (count < Max) 
             newPassenger  -> CONTROL[count+1][carSize]
-      |requestPassenger[n:1..MCar] -> CONTROL[count][n]
+      |requestPassenger[n:1..MCar] -> CONTROL[count][n] 
       |when (carSize > 0 && count >= carSize) 
             getPassenger[carSize] -> CONTROL[count-carSize][0] 
       ).
