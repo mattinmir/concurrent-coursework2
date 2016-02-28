@@ -42,7 +42,8 @@ public class ControllerPartI
 		  return mcar;
 	  }
 	  else 
-		  throw Exception;
+		// Would throw some exception here but extra files not allowed by CATe submission
+		  return 0; 
   }
 
   public synchronized void goNow() 
