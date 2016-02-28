@@ -43,4 +43,4 @@ BUTTON = (goNow -> BUTTON).
            || car[2]:COASTERCAR(3)
 		   
            )
-           /{newPassenger/car[1..2].newPassenger}.
+           /{newPassenger/car[1..2].newPassenger, goNow/car[1..2].goNow}.
